@@ -1,5 +1,8 @@
-import {app} from "./app"
-// import {cors} from "@elysiajs/cors"
-// app.use(cors()).listen(3000)
+import { app } from "./app";
+import { cors } from '@elysiajs/cors'
 
-app.listen(3000)
+
+app.use(cors({
+    origin: 'http://localhost:3001',
+    credentials: true,
+})).listen(3000);

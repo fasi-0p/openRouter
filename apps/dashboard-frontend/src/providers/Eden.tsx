@@ -11,7 +11,6 @@ const client = treaty<App>('localhost:3000', {
 const ElysiaClientContext = createContext(client);
 
 export const ElysiaClientContextProvider = ElysiaClientContext.Provider;
-
 export const useElysiaClient = () => {
     const client = useContext(ElysiaClientContext);
     return client;
