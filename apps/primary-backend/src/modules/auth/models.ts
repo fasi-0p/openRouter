@@ -1,40 +1,49 @@
-import { t } from "elysia";
+import { t } from 'elysia'
 
 export namespace AuthModel {
-  export const signinSchema = t.Object({
-    email: t.String(),
-    password: t.String()
-  });
+    export const signinSchema = t.Object({
+        email: t.String(),
+        password: t.String()
+    })
 
-  export type SignInSchema = typeof signinSchema.static;
+    export type signInSchema = typeof signinSchema.static
 
-  export const signinResponseSchema = t.Object({
-    token: t.String()
-  });
+    export const signinResponseSchema = t.Object({
+        message: t.Literal("Signed in successfully"),
+    })
 
-  export type SigninResponseSchema = typeof signinResponseSchema.static;
+    export type signinResponseSchema = typeof signinResponseSchema.static;
 
-  export const signupSchema = t.Object({
-    email: t.String(),
-    password: t.String()
-  });
+    export const signinFailureSchema = t.Object({
+        message: t.Literal("Incorrect credentials")
+    })
 
-  export type SignupSchema = typeof signupSchema.static;
+    export type signinFailureSchema = typeof signinFailureSchema.static;
 
-  export const signupResponseSchema = t.Object({
-    id: t.String()
-  });
+    export const signupSchema = t.Object({
+        email: t.String(),
+        password: t.String()
+    })
 
-  export type SignupResponseSchema = typeof signupResponseSchema.static;
+    export type signupSchema = typeof signinSchema.static
 
-  export const signinFailureResponseSchema = t.Object({
-    message: t.Literal("Invalid credentials")
-  });
+    export const signupResponseSchema = t.Object({
+        id: t.String(),
+    })
 
-  export const signupFailedResponseSchema = t.Object({
-    message: t.Literal("Error while signing up")
-  });
+    export const signupFailedResponseSchema = t.Object({
+        message: t.Literal("Error while signing up")
+    })
 
-  export type SignupFailedResponseSchema =
-    typeof signupFailedResponseSchema.static;
+    export type signupResponseSchema = typeof signinResponseSchema.static;
+    export type signupFailedResponseSchema = typeof signupFailedResponseSchema;
+
+
+    export const profileResponseSchema = t.Object({
+        credits: t.Number()
+    })
+
+    export const profileResponseErrorSchema = t.Object({
+        message: t.Literal("Error while fetching user details")
+    })
 }
