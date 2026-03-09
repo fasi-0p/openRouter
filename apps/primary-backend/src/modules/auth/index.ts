@@ -69,7 +69,7 @@ export const app = new Elysia({ prefix: "auth" })
             return status(401)
         }
 
-        return {
+        return { 
             userId: decoded.userId as string
         }
     })
