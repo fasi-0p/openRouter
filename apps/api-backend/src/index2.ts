@@ -27,8 +27,7 @@ const app = new Elysia()
     }
 
 
-    const response = await Gemini.chat(providerModelName, body.messages);
-    return response;
+    throw new Error("Model not found")
   }, {
     body: Conversation
   })

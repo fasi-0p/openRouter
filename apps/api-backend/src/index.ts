@@ -6,10 +6,11 @@ import { Gemini } from "./llms/Gemini";
 import { OpenAi } from "./llms/OpenAi";
 import { Claude } from "./llms/Claude";
 import { LlmResponse } from "./llms/Base";
+// import { openapi } from "elysia-openapi";
 
 const app = new Elysia()
 .use(bearer())
-.use(openapi());
+// .use(openapi())
 .post("/api/v1/chat/completions", async ({ status, bearer: apiKey, body }) => {
   const model = body.model;
   const [_companyName, providerModelName] = model.split("/");
@@ -82,6 +83,7 @@ const app = new Elysia()
     }) 
   }
 
+  //todo: ideally we should consider inputTokensConsumed, cost of tokens, outputTokensConsumed stored in db
   const creditsUsed = (response.inputTokensConsumed * provider.inputTokenCost + response.outputTokensConsumed * provider.outputTokenCost) / 10;
   console.log(creditsUsed);
   const res = await prisma.user.update({

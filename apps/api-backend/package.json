@@ -6,6 +6,7 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "db":"*",
     "@elysiajs/bearer": "^1.4.3",
     "@google/genai": "^1.44.0",
     "elysia": "latest",
