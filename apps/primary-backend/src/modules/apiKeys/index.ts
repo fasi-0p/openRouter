@@ -38,14 +38,26 @@ export const app = new Elysia({ prefix: "api-keys" })
     }
 })
 
+// .get("/", async ({ userId }) => { //todo: this is the og code but due to type error its replaced with the below code
+//     const apiKeys = await ApiKeyService.getApiKeys(Number(userId))
+//     return {
+//         apiKeys: apiKeys
+//     }
+// },{
+//     response: { 200: ApiKeyModel.getApiKeysResponseSchema }
+// })
 .get("/", async ({ userId }) => {
-    const apiKeys = await ApiKeyService.getApiKeys(Number(userId))
-    return {
-        apiKeys: apiKeys
-    }
+    const rawKeys = await ApiKeyService.getApiKeys(Number(userId));
+    // Patch: add disabled property (default to false)
+    const apiKeys = rawKeys.map(key => ({
+        ...key,
+        disabled: false // or true if you want, but usually false means "active"
+    }));
+    return { apiKeys };
 },{
     response: { 200: ApiKeyModel.getApiKeysResponseSchema }
 })
+
 
 .put("/disable", async ({body, userId, status}) => {
     try{
