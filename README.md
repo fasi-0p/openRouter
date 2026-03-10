@@ -1,159 +1,319 @@
-# Turborepo starter
+# 🚀 OpenRouter Clone
 
-This Turborepo starter is maintained by the Turborepo core team.
+![AI Gateway](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGZ1cXRrb21yN2R4b2xwNHRhdjVvZmRrZmFnb3BmbmU4aWxtM2w1eiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/26tn33aiTi1jkl6H6/giphy.gif)
 
-## Using this example
+A **full-stack AI infrastructure project** inspired by **OpenRouter**, built to explore how modern **LLM gateway platforms** work internally.
 
-Run the following command:
+This project implements a **unified API layer for interacting with multiple AI model providers**, along with:
 
-```sh
-npx create-turbo@latest
+- 🔐 Authentication
+- 🔑 API Key Management
+- 💳 Credit / Payment System
+- 🤖 Model Discovery
+- 📊 Usage Infrastructure
+
+---
+
+# 🌍 Overview
+
+Modern AI applications often rely on **multiple model providers**:
+
+- 🤖 OpenAI
+- 🧠 Anthropic
+- 🌐 Google
+- 🧩 Mistral
+- ⚡ TogetherAI
+
+Instead of integrating every provider separately, platforms like **OpenRouter** provide a **unified API** that routes requests to different models.
+
+```
+Developer App
+      │
+      ▼
+Unified AI Gateway
+      │
+      ├── OpenAI
+      ├── Anthropic
+      ├── Google
+      └── Mistral
 ```
 
-## What's inside?
+This project is a **simplified implementation of such an AI infrastructure layer**.
 
-This Turborepo includes the following packages/apps:
+---
 
-### Apps and Packages
+# 🏗 Architecture
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+The project uses a **Monorepo Architecture powered by Bun Workspaces**.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```
+openRouter/
+│
+├── apps/
+│   ├── primary-backend      → Core API server
+│   └── dashboard-frontend   → Developer dashboard
+│
+├── packages/
+│   └── db                   → Shared Prisma database package
+│
+└── bun.lockb
 ```
 
-Without global `turbo`, use your package manager:
+---
 
-```sh
-cd my-turborepo
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+# ⚙️ Tech Stack
+
+## Backend
+
+- ⚡ **Bun Runtime**
+- 🦊 **Elysia Framework**
+- 🧬 **Prisma ORM**
+- 🐘 **PostgreSQL**
+- 🔐 **JWT Authentication**
+
+## Frontend
+
+- ⚡ **Bun**
+- 🔗 **Elysia Eden (Treaty)**
+- 🧠 **Type-safe API communication**
+
+---
+
+# 🧱 Backend Architecture
+
+Each backend feature follows a **Modular Layered Architecture**.
+
+```
+module/
+ ├── index.ts
+ ├── models.ts
+ └── service.ts
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+### 📡 `index.ts`
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+Handles:
 
-```sh
-turbo build --filter=docs
+- API routes
+- middleware
+- request handling
+
+### 📦 `models.ts`
+
+Defines:
+
+- request schemas
+- response schemas
+- TypeScript types
+
+### 🧠 `service.ts`
+
+Contains:
+
+- business logic
+- database queries
+- core functionality
+
+This architecture ensures:
+
+✔ separation of concerns  
+✔ maintainable modules  
+✔ scalable backend design
+
+---
+
+# 🧩 Implemented Modules
+
+---
+
+# 🔐 Authentication Module
+
+Handles user authentication and identity.
+
+### Features
+
+- User Signup
+- User Login
+- JWT Token Generation
+- Secure Password Hashing
+
+### Routes
+
+```
+POST /auth/sign-up
+POST /auth/sign-in
 ```
 
-Without global `turbo`:
+---
 
-```sh
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+# 🔑 API Keys Module
+
+Allows developers to manage API keys for accessing the AI gateway.
+
+### Features
+
+- Create API key
+- List API keys
+- Disable API key
+- Soft delete API key
+
+### Routes
+
+```
+POST /api-keys
+GET /api-keys
+PUT /api-keys/disable
+DELETE /api-keys/:id
 ```
 
-### Develop
+---
 
-To develop all apps and packages, run the following command:
+# 🤖 Models Module
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+Provides discovery APIs for available AI models.
 
-```sh
-cd my-turborepo
-turbo dev
+### Features
+
+- List available models
+- List model providers
+- Retrieve providers for a specific model
+
+### Routes
+
+```
+GET /models
+GET /models/providers
+GET /models/:id/providers
 ```
 
-Without global `turbo`, use your package manager:
+---
 
-```sh
-cd my-turborepo
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+# 💳 Payments Module
+
+Implements a **credit-based billing system**.
+
+Users can **onramp credits** to their account which can later be consumed by model usage.
+
+### Features
+
+- Add credits to user balance
+- Track onramp transactions
+
+### Route
+
+```
+POST /payments/onramp
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+---
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+# 🗄 Database Schema
 
-```sh
-turbo dev --filter=web
+Powered by **Prisma + PostgreSQL**.
+
+### Core Tables
+
+| Table | Purpose |
+|-----|------|
+User | Stores user accounts |
+ApiKey | Developer API keys |
+Company | Model creators |
+Model | AI models |
+Provider | Model hosting providers |
+ModelProviderMapping | Model-provider relationship |
+Conversation | Model interaction logs |
+OnrampTransaction | Payment history |
+
+These enable:
+
+- authentication
+- API key management
+- model routing
+- usage tracking
+- billing infrastructure
+
+---
+
+# 🖥 Frontend Dashboard
+
+A minimal **developer dashboard** built with **Elysia Eden Treaty**.
+
+It provides **type-safe communication between frontend and backend APIs**.
+
+### Current Features
+
+- Login interface
+- Backend integration
+- API testing
+
+### Example Usage
+
+```ts
+const client = treaty<App>("http://localhost:3000")
+
+client.auth["sign-in"].post({
+  email: "test@example.com",
+  password: "password"
+})
 ```
 
-Without global `turbo`:
+---
 
-```sh
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+# 🧠 Concepts Practiced
+
+This project focuses on **real-world backend engineering patterns**.
+
+- 🏗 Monorepo architecture
+- 📦 Modular backend design
+- 🧱 Layered architecture
+- 🚪 API gateway design
+- 🔐 JWT authentication
+- 🔑 API key infrastructure
+- 💳 Credit-based billing systems
+- 🔗 Type-safe API clients
+
+---
+
+# 🔮 Future Improvements
+
+Planned system upgrades:
+
+- 🤖 Model request routing
+- 📊 Token usage tracking
+- 💰 Cost calculation
+- ⚡ Provider failover
+- 🚦 Rate limiting
+- 🧾 Request logging
+- 📈 Model benchmarking
+- 🖥 Full dashboard UI
+
+---
+
+#  Learning Goals
+
+This project explores how **AI infrastructure platforms** operate internally.
+
+Inspired by platforms like:
+
+- OpenRouter
+- Vercel AI Gateway
+- Helicone
+- LangSmith
+
+The goal is to combine:
+
+```
+AI Engineering
++
+Backend System Design
++
+Infrastructure Thinking
 ```
 
-### Remote Caching
+---
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+# Author
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+**Fasi Owaiz Ahmed**
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+yes this readme was generated by gpt niqq
